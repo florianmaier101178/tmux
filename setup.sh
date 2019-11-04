@@ -9,3 +9,6 @@ fi
 # link .tmux.conf
 ln -s ~/tmux/tmux.conf ~/.tmux.conf
 
+# link .tmux folder
+ln -s ~/tmux/tmux ~/.tmux
+

@@ -1,0 +1,75 @@
+# first window - zookeeper & kafka
+select-window -t 0
+rename-window kafka
+
+# first window first pane - start zookeeper
+splitw -h "/opt/kafka_2.11-2.1.0/bin/zookeeper-server-start.sh /opt/kafka_2.11-2.1.0/config/zookeeper.properties"
+
+# first window second pane - start kafka
+splitw -h "sleep 2 && /opt/kafka_2.11-2.1.0/bin/kafka-server-start.sh /opt/kafka_2.11-2.1.0/config/server.properties"
+
+# kill actual first window first pane
+killp -t 0
+
+# first window layout - even horizontal
+select-layout even-horizontal
+
+#############################################################################################################################
+
+# second window - topics
+new-window
+select-window -t 1
+rename-window topics
+
+# second window first pane - start zookeeper
+splitw -h 'sleep 5 && bash --init-file <(echo "/opt/kafka_2.11-2.1.0/bin/kafka-topics.sh --zookeeper 127.0.0.1:2181 --list; /opt/kafka_2.11-2.1.0/bin/kafka-topics.sh --zookeeper 127.0.0.1:2181 --create --topic rawtelemetry --replication-factor 1 --partitions 1; /opt/kafka_2.11-2.1.0/bin/kafka-topics.sh --zookeeper 127.0.0.1:2181 --create --topic interpreter.cloudalarm --replication-factor 1 --partitions 1; /opt/kafka_2.11-2.1.0/bin/kafka-topics.sh --zookeeper 127.0.0.1:2181 --create --topic interpreter.devicealarm --replication-factor 1 --partitions 1; /opt/kafka_2.11-2.1.0/bin/kafka-topics.sh --zookeeper 127.0.0.1:2181 --create --topic interpreter.deviceunavailabilityalarm --replication-factor 1 --partitions 1; /opt/kafka_2.11-2.1.0/bin/kafka-topics.sh --zookeeper 127.0.0.1:2181 --create --topic interpreter.fridgestate --replication-factor 1 --partitions 1; /opt/kafka_2.11-2.1.0/bin/kafka-topics.sh --zookeeper 127.0.0.1:2181 --create --topic interpreter.history --replication-factor 1 --partitions 1; /opt/kafka_2.11-2.1.0/bin/kafka-topics.sh --zookeeper 127.0.0.1:2181 --list")'
+
+# kill actual second window first pane
+killp -t 0
+
+#############################################################################################################################
+
+# third window - rawtelemetry
+new-window
+select-window -t 2
+rename-window rawtelemetry
+
+# third window first pane - topic listener rawtelemetry
+splitw -h 'sleep 15 && echo "rawtelemetry" && /opt/kafka_2.11-2.1.0/bin/kafka-console-consumer.sh --bootstrap-server 127.0.0.1:9092 --topic rawtelemetry'
+
+# kill actual third window first pane
+killp -t 0
+
+#############################################################################################################################
+
+# fourth window - interpreter
+new-window
+select-window -t 3
+rename-window interpreter
+
+# fourth window first pane - topic listener interpreter.cloudalarm
+splitw -h 'sleep 15 && echo "interpreter.cloudalarm" && /opt/kafka_2.11-2.1.0/bin/kafka-console-consumer.sh --bootstrap-server 127.0.0.1:9092 --topic interpreter.cloudalarm'
+
+# fourth window second pane - topic listener interpreter.devicealarm
+splitw -h 'sleep 15 && echo "interpreter.devicealarm" && /opt/kafka_2.11-2.1.0/bin/kafka-console-consumer.sh --bootstrap-server 127.0.0.1:9092 --topic interpreter.devicealarm'
+
+# fourth window third pane - topic listener interpreter.deviceunavailabilityalarm
+splitw -h 'sleep 15 && echo "interpreter.deviceunavailabilityalarm" && /opt/kafka_2.11-2.1.0/bin/kafka-console-consumer.sh --bootstrap-server 127.0.0.1:9092 --topic interpreter.deviceunavailabilityalarm'
+
+# fourth window fourth pane - topic listener interpreter.fridgestate
+splitw -h 'sleep 15 && echo "interpreter.fridgestate" && /opt/kafka_2.11-2.1.0/bin/kafka-console-consumer.sh --bootstrap-server 127.0.0.1:9092 --topic interpreter.fridgestate'
+
+# fourth window fifth pane - topic listener interpreter.history
+splitw -h 'sleep 15 && echo "interpreter.history" && /opt/kafka_2.11-2.1.0/bin/kafka-console-consumer.sh --bootstrap-server 127.0.0.1:9092 --topic interpreter.history'
+
+# first window layout - even horizontal
+select-layout even-vertical
+
+# kill actual fourth window first pane
+killp -t 0
+
+#############################################################################################################################
+
+# open first window
+select-window -t 1
+
