@@ -1,0 +1,9 @@
+https://www.hamvocke.com/blog/remote-pair-programming-with-tmux/
+
+server
+======
+tmux -S /tmp/tmux_shared_session
+
+client
+======
+tmux -S /tmp/tmux_shared_session attach
