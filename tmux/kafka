@@ -59,6 +59,9 @@ splitw -h 'sleep 15 && echo "interpreter.deviceunavailabilityalarm" && /opt/kafk
 # fourth window fourth pane - topic listener interpreter.fridgestate
 splitw -h 'sleep 15 && echo "interpreter.fridgestate" && /opt/kafka_2.11-2.1.0/bin/kafka-console-consumer.sh --bootstrap-server 127.0.0.1:9092 --topic interpreter.fridgestate'
 
+# fourth window fourth pane - topic listener interpreter.gatewaykeepalive
+splitw -h 'sleep 15 && echo "interpreter.gatewaykeepalive" && /opt/kafka_2.11-2.1.0/bin/kafka-console-consumer.sh --bootstrap-server 127.0.0.1:9092 --topic interpreter.gatewaykeepalive'
+
 # fourth window fifth pane - topic listener interpreter.history
 splitw -h 'sleep 15 && echo "interpreter.history" && /opt/kafka_2.11-2.1.0/bin/kafka-console-consumer.sh --bootstrap-server 127.0.0.1:9092 --topic interpreter.history'
 
