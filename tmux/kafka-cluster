@@ -34,7 +34,7 @@ select-window -t 2
 rename-window topics
 
 # third window first pane
-splitw -h 'sleep 5 && bash --init-file <(echo "echo list topics; kafka-topics.sh --zookeeper 127.0.0.1:2181 --list; echo create topics; kafka-topics.sh --zookeeper 127.0.0.1:2181 --create --topic rawtelemetry --partitions 4 --replication-factor 2; kafka-topics.sh --zookeeper 127.0.0.1:2181 --create --topic interpreter.cloudalarm --partitions 4 --replication-factor 2; kafka-topics.sh --zookeeper 127.0.0.1:2181 --create --topic interpreter.devicealarm --partitions 4 --replication-factor 2; kafka-topics.sh --zookeeper 127.0.0.1:2181 --create --topic interpreter.deviceunavailabilityalarm --partitions 4 --replication-factor 2; kafka-topics.sh --zookeeper 127.0.0.1:2181 --create --topic interpreter.fridgestate --partitions 4 --replication-factor 2; kafka-topics.sh --zookeeper 127.0.0.1:2181 --create --topic interpreter.history --partitions 4 --replication-factor 2; kafka-topics.sh --zookeeper 127.0.0.1:2181 --create --topic interpreter.telemetrykeepalive --partitions 4 --replication-factor 2; echo describe topics; kafka-topics.sh --zookeeper 127.0.0.1:2181 --describe --topic rawtelemetry; kafka-topics.sh --zookeeper 127.0.0.1:2181 --describe --topic interpreter.cloudalarm; kafka-topics.sh --zookeeper 127.0.0.1:2181 --describe --topic interpreter.devicealarm; kafka-topics.sh --zookeeper 127.0.0.1:2181 --describe --topic interpreter.deviceunavailabilityalarm; kafka-topics.sh --zookeeper 127.0.0.1:2181 --describe --topic interpreter.fridgestate; kafka-topics.sh --zookeeper 127.0.0.1:2181 --describe --topic interpreter.history; kafka-topics.sh --zookeeper 127.0.0.1:2181 --describe --topic interpreter.telemetrykeepalive")'
+splitw -h 'sleep 5 && bash --init-file <(echo "echo list topics; kafka-topics.sh --zookeeper 127.0.0.1:2181 --list; echo create topics; kafka-topics.sh --zookeeper 127.0.0.1:2181 --create --topic rawtelemetry --partitions 4 --replication-factor 2; kafka-topics.sh --zookeeper 127.0.0.1:2181 --create --topic interpreter.cloudalarm --partitions 4 --replication-factor 2; kafka-topics.sh --zookeeper 127.0.0.1:2181 --create --topic interpreter.devicealarm --partitions 4 --replication-factor 2; kafka-topics.sh --zookeeper 127.0.0.1:2181 --create --topic interpreter.deviceunavailabilityalarm --partitions 4 --replication-factor 2; kafka-topics.sh --zookeeper 127.0.0.1:2181 --create --topic interpreter.fridgestate --partitions 4 --replication-factor 2; kafka-topics.sh --zookeeper 127.0.0.1:2181 --create --topic interpreter.history --partitions 4 --replication-factor 2; kafka-topics.sh --zookeeper 127.0.0.1:2181 --create --topic interpreter.telemetrykeepalive --partitions 4 --replication-factor 2; kafka-topics.sh --zookeeper 127.0.0.1:2181 --create --topic pmi --partitions 4 --replication-facotr 2; echo describe topics; kafka-topics.sh --zookeeper 127.0.0.1:2181 --describe --topic rawtelemetry; kafka-topics.sh --zookeeper 127.0.0.1:2181 --describe --topic interpreter.cloudalarm; kafka-topics.sh --zookeeper 127.0.0.1:2181 --describe --topic interpreter.devicealarm; kafka-topics.sh --zookeeper 127.0.0.1:2181 --describe --topic interpreter.deviceunavailabilityalarm; kafka-topics.sh --zookeeper 127.0.0.1:2181 --describe --topic interpreter.fridgestate; kafka-topics.sh --zookeeper 127.0.0.1:2181 --describe --topic interpreter.history; kafka-topics.sh --zookeeper 127.0.0.1:2181 --describe --topic interpreter.telemetrykeepalive; kafka-topics.sh --zookeeper 127.0.0.1:2181 --describe --topic pmi")'
 
 killp -t 0
 
@@ -72,6 +72,17 @@ rename-window interpreter-consumers-2
 splitw -h 'sleep 30 && echo "consuming interpreter.fridgestate" && kafka-console-consumer.sh --bootstrap-server 127.0.0.1:9092 --topic interpreter.fridgestate'
 splitw -h 'sleep 30 && echo "consuming interpreter.history" && kafka-console-consumer.sh --bootstrap-server 127.0.0.1:9092 --topic interpreter.history'
 splitw -h 'sleep 30 && echo "consuming interpreter.telemetrykeepalive" && kafka-console-consumer.sh --bootstrap-server 127.0.0.1:9092 --topic interpreter.telemetrykeepalive'
+
+killp -t 0
+
+select-layout even-vertical
+####################################################################################################
+# seventh window consumers pmi topics
+new-window
+select-window -t 6
+rename-window pmi-consumers
+
+splitw -h 'sleep 30 && echo "consuming pmi" && kafka-console-consumer.sh --bootstrap-server 127.0.0.1:9092 --topic pmi'
 
 killp -t 0
 
