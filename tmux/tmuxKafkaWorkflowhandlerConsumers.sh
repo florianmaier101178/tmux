@@ -41,12 +41,12 @@ function windowFirstConsumers() {
     windowBeginningPart $WINDOW_NAME
 
     tmux split-window '
-        sleep 10 && \
+        sleep 15 && \
         echo "consuming workflowhandler.ibotpairingstates" && \
         kafka-console-consumer.sh --topic workflowhandler.ibotpairingstates --bootstrap-server localhost:9092 \
         '
     tmux split-window '
-        sleep 10 && \
+        sleep 15 && \
         echo "consuming workflowhandler.offboardingstates" && \
         kafka-console-consumer.sh --topic workflowhandler.offboardingstates --bootstrap-server localhost:9092 \
         '
@@ -62,12 +62,12 @@ function windowSecondConsumers() {
     windowBeginningPart $WINDOW_NAME
 
     tmux split-window '
-        sleep 15 && \
+        sleep 20 && \
         echo "consuming workflowhandler.ibotconfigurationcommands" && \
         kafka-console-consumer.sh --topic workflowhandler.ibotconfigurationscommands --bootstrap-server localhost:9092 \
         '
     tmux split-window '
-        sleep 15 && \
+        sleep 20 && \
         echo "consuming workflowhandler.ibotconfigurationstates" && \
         kafka-console-consumer.sh --topic workflowhandler.ibotconfigurationstates --bootstrap-server localhost:9092 \
         '
