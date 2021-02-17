@@ -64,7 +64,7 @@ function windowSecondConsumers() {
     tmux split-window '
         sleep 20 && \
         echo "consuming workflowhandler.ibotconfigurationcommands" && \
-        kafka-console-consumer.sh --topic workflowhandler.ibotconfigurationscommands --bootstrap-server localhost:9092 \
+        kafka-console-consumer.sh --topic workflowhandler.ibotconfigurationcommands --bootstrap-server localhost:9092 \
         '
     tmux split-window '
         sleep 20 && \
