@@ -26,10 +26,12 @@ function windowTopics() {
         kafka-topics.sh --create --topic workflowhandler.ibotconfigurationcommands --replication-factor 2 --partitions 4 --bootstrap-server localhost:9092; \
         kafka-topics.sh --create --topic workflowhandler.ibotconfigurationstates --replication-factor 2 --partitions 4 --bootstrap-server localhost:9092; \
         kafka-topics.sh --create --topic workflowhandler.offboardingstates --replication-factor 2 --partitions 4 --bootstrap-server localhost:9092; \
+        kafka-topics.sh --create --topic workflowhandler.assignmentstates --replication-factor 2 --partitions 4 --bootstrap-server localhost:9092; \
         kafka-topics.sh --describe --topic workflowhandler.ibotpairingstates --zookeeper 127.0.0.1:2181; \
         kafka-topics.sh --describe --topic workflowhandler.ibotconfigurationcommands --zookeeper 127.0.0.1:2181; \
         kafka-topics.sh --describe --topic workflowhandler.ibotconfigurationstates --zookeeper 127.0.0.1:2181; \
         kafka-topics.sh --describe --topic workflowhandler.offboardingstates --zookeeper 127.0.0.1:2181; \
+        kafka-topics.sh --describe --topic workflowhandler.assignmentstates --zookeeper 127.0.0.1:2181; \
     ")'
 
     windowEndingPart 
@@ -44,6 +46,11 @@ function windowFirstConsumers() {
         sleep 15 && \
         echo "consuming workflowhandler.ibotpairingstates" && \
         kafka-console-consumer.sh --topic workflowhandler.ibotpairingstates --bootstrap-server localhost:9092 \
+        '
+    tmux split-window '
+        sleep 15 && \
+        echo "consuming workflowhandler.assignmentstates" && \
+        kafka-console-consumer.sh --topic workflowhandler.assignmentstates --bootstrap-server localhost:9092 \
         '
     tmux split-window '
         sleep 15 && \
