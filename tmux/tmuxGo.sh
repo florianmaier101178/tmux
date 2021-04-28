@@ -28,8 +28,8 @@ function windowEndingPart() {
     tmux kill-pane -t 0
 }
 
-function windowBash() {
-    WINDOW_NAME=bash
+function windowVerticalBash() {
+    WINDOW_NAME=bashv
 
     windowBeginningPart $WINDOW_NAME
 
@@ -38,6 +38,20 @@ function windowBash() {
     tmux split-window -v -c $DIR 'bash'
 
     tmux select-layout even-vertical
+
+    windowEndingPart
+}
+
+function windowHorizontalBash() {
+    WINDOW_NAME=bashh
+
+    windowBeginningPart $WINDOW_NAME
+
+    tmux split-window -c $DIR 'bash'
+
+    tmux split-window -c $DIR 'bash'
+
+    tmux select-layout even-horizontal
 
     windowEndingPart
 }
@@ -59,8 +73,9 @@ function windowProject() {
 # create a new detached session
 tmux new -s $SESSION -d
 
-windowBash
+windowVerticalBash
 windowProject
+windowHorizontalBash
 
 # remove first window
 tmux select-window -t 0                                                                                 
