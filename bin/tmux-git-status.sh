@@ -20,8 +20,10 @@ do
     if [ $result -eq 0 ]; then
         dirty=$(git status --short | wc -l)
         if [ $dirty -ne 0 ]; then
-            echo $directory is dirty
+            printf "${CYAN}$directory${NO_COLOR} is dirty\n"
+            git status --short
             dirtyRepositories=1
+            printf "\n"
         fi
     fi
 done
@@ -32,5 +34,5 @@ fi
 
 printf "\n"
 
-read -p ""
+read -p "Press enter ..."
 
