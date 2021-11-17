@@ -13,7 +13,8 @@ function dirtyMessage() {
     dirty=$1
 
     if [ $dirty -eq "0" ]; then
-        echo "no dirty repositories found in '$REPO_BASE_DIR'"
+        echo "no dirty repositories ($2) found in '$REPO_BASE_DIR'"
+        printf "\n"
     fi
 }
 
@@ -43,7 +44,7 @@ function repositoriesWithChanges() {
         fi
     done
 
-    dirtyMessage $repositoriesWithChanges
+    dirtyMessage $repositoriesWithChanges "changes"
 }
 
 function repositoriesWithCommits() {
@@ -67,7 +68,7 @@ function repositoriesWithCommits() {
         fi
     done
 
-    dirtyMessage $repositoriesWithCommits
+    dirtyMessage $repositoriesWithCommits "commits"
 }
 
 if [ "${1}" = "changes" ]; then
