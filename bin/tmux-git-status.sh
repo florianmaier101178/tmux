@@ -1,38 +1,82 @@
 #!/bin/bash
 
-COT_BASE_DIR="/home/flo/projects/cot"
+REPO_BASE_DIR="/home/flo/projects/cot"
 
 CYAN='\033[1;36m'
 NO_COLOR='\033[0m'
 
-printf "${CYAN}GIT status report for projects in '$COT_BASE_DIR'${NO_COLOR}\n\n"
+function header() {
+    printf "${CYAN}GIT report - repositories with '$1' for projects in '$REPO_BASE_DIR'${NO_COLOR}\n\n"
+}
 
-cd $COT_BASE_DIR
+function dirtyMessage() {
+    dirty=$1
 
-directories=( $(find . -mindepth 1 -maxdepth 1 -type d) )
-declare -i dirtyRepositories=0
-
-for directory in ${directories[@]}
-do
-    cd $COT_BASE_DIR"${directory:1}"
-    find . -mindepth 1 -maxdepth 1 -type d | grep --silent ".git"
-    result=$?
-    if [ $result -eq 0 ]; then
-        dirty=$(git status --short | wc -l)
-        if [ $dirty -ne 0 ]; then
-            printf "${CYAN}$directory${NO_COLOR} is dirty\n"
-            git status --short
-            dirtyRepositories=1
-            printf "\n"
-        fi
+    if [ $dirty -eq "0" ]; then
+        echo "no dirty repositories found in '$REPO_BASE_DIR'"
     fi
-done
+}
 
-if [ $dirtyRepositories -eq "0" ]; then
-    echo "no dirty repositories below '$COT_BASE_DIR' found"
+function loadRepoDirectories() {
+    cd $REPO_BASE_DIR
+    REPO_DIRS=( $(find . -mindepth 1 -maxdepth 1 -type d) )
+}
+
+function repositoriesWithChanges() {
+    header "changes"
+    local repositoriesWithChanges=0
+    loadRepoDirectories
+
+    for repo in ${REPO_DIRS[@]}
+    do
+        cd $REPO_BASE_DIR"${repo:1}"
+        find . -mindepth 1 -maxdepth 1 -type d | grep --silent ".git"
+        result=$?
+        if [ $result -eq 0 ]; then
+            dirty=$(git status --short | wc -l)
+            if [ $dirty -ne 0 ]; then
+                printf "${CYAN}$repo${NO_COLOR} is dirty\n"
+                git status --short
+                repositoriesWithChanges=1
+                printf "\n"
+            fi
+        fi
+    done
+
+    dirtyMessage $repositoriesWithChanges
+}
+
+function repositoriesWithCommits() {
+    header "commits"
+    local repositoriesWithCommits=0
+    loadRepoDirectories
+
+    for repo in ${REPO_DIRS[@]}
+    do
+        cd $REPO_BASE_DIR"${repo:1}"
+        find . -mindepth 1 -maxdepth 1 -type d | grep --silent ".git"
+        result=$?
+        if [ $result -eq 0 ]; then
+            commits=$(git log --oneline origin/master..master | wc -l)
+            if [ $commits -ne 0 ]; then
+                printf "${CYAN}$repo${NO_COLOR} has commits\n"
+                git log -$commits
+                repositoriesWithCommits=1
+                printf "\n"
+            fi
+        fi
+    done
+
+    dirtyMessage $repositoriesWithCommits
+}
+
+if [ "${1}" = "changes" ]; then
+    repositoriesWithChanges
 fi
 
-printf "\n"
+if [ "${1}" = "commits" ]; then
+    repositoriesWithCommits
+fi
 
 read -p "Press enter ..."
 
